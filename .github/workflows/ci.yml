@@ -16,4 +16,3 @@ jobs:
           distribution: 'temurin'
       - name: Run Tests
         run: mvn verify
-        working-directory: TP-DDS
