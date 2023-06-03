@@ -1,5 +1,6 @@
 import ar.utn.dds.Incidencia.*;
 import ar.utn.dds.Incidencia.exception.IncidenciaInvalidaException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ public class IncidenciaTest {
     Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio", fecha , Estados.ASIGNADO );
 
     Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", fecha ,Estados.ASIGNADO);
+
 
     public IncidenciaTest() throws IncidenciaInvalidaException {
     }

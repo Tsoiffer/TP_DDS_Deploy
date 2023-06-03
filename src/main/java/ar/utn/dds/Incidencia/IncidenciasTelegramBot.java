@@ -1,6 +1,14 @@
 package ar.utn.dds.Incidencia;
 
 import ar.utn.dds.Incidencia.exception.IncidenciaInvalidaException;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,8 +16,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import utils.ManejoConsultaApi;
 import utils.ManejoDataset;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,12 +61,12 @@ public class IncidenciasTelegramBot extends TelegramLongPollingBot {
             case "LISTADOULTIMAS" -> {
                 System.out.println("comando LISTADOULTIMAS");
                 if (Arrays.stream(comando).count()==1){
-                    rta = this.formatListIncidencias(this.repoIncidencias.listReciente());
+                    rta = ManejoConsultaApi.executeGet(this.apiEndpoint + "incidencia/listViejas?estado=");
                     break;
                 }
                 try {
                     Estados estado = Estados.valueOf(comando[1]);
-                    rta = this.formatListIncidencias(this.repoIncidencias.listReciente(estado));
+                    rta = ManejoConsultaApi.executeGet(this.apiEndpoint + "incidencia/listViejas?estado="+estado);
                 }catch (Exception e) {
                     System.err.println(e);
                     rta = rtaEstInc;
@@ -64,12 +75,12 @@ public class IncidenciasTelegramBot extends TelegramLongPollingBot {
             case "LISTADOPRIMERAS" -> {
                 System.out.println("comando LISTADOPRIMERAS");
                 if (Arrays.stream(comando).count()==1){
-                    rta = this.formatListIncidencias(this.repoIncidencias.listViejo());
+                    rta = ManejoConsultaApi.executeGet(this.apiEndpoint + "incidencia/listMasRecientes?estado=");
                     break;
                 }
                 try {
                     Estados estado = Estados.valueOf(comando[1]);
-                    rta = this.formatListIncidencias(this.repoIncidencias.listViejo(estado));
+                    rta = ManejoConsultaApi.executeGet(this.apiEndpoint + "incidencia/listMasRecientes?estado="+estado);
                 } catch (Exception e){
                     System.err.println(e);
                     rta = rtaEstInc;
@@ -84,7 +95,7 @@ public class IncidenciasTelegramBot extends TelegramLongPollingBot {
                     break;
                 }
                 CodigoCatalogo codigoCatalogo = new CodigoCatalogo(comando[1]);
-                rta = this.formatListIncidencias(this.repoIncidencias.findByLugar(codigoCatalogo));
+                rta = ManejoConsultaApi.executeGet(this.apiEndpoint + "/incidencia/lugar/"+codigoCatalogo.getCodigo());
             }
 
             default -> {

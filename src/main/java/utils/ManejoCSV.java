@@ -19,8 +19,6 @@ import com.opencsv.exceptions.CsvValidationException;
 
 public class ManejoCSV {
 
-
-
     public static List<List<String>> leerCSV(String path) throws IOException, CsvValidationException {
         List<List<String>> filas = new ArrayList<>();
         CSVParser parser = new CSVParserBuilder().withSeparator('\t').build();
@@ -74,7 +72,7 @@ public class ManejoCSV {
 
                 Incidencia incidencia = null;
                 try {
-                    incidencia = new Incidencia(codCat, desc, estados, fechaRep, motivo, operador, personaRep);
+                    incidencia = new Incidencia(codCat, desc, fechaRep, estados, motivo, operador, personaRep);
                 } catch (IncidenciaInvalidaException e) {
                     System.err.println("Hubo un error cargando la incidencia: formato invalido");
                 }

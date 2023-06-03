@@ -23,7 +23,7 @@ public class RepoIncidenciasTest {
     Incidencia incidencia1 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio",  fecha , Estados.REPORTADO );
     Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio",  fecha , Estados.ASIGNADO );
     Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio",  fecha , Estados.ASIGNADO );
-    Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio", Estados.ASIGNADO,  fecha , "Alguno" , operante, "Pepe" );
+    Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio", fecha, Estados.ASIGNADO, "Alguno" , operante, "Pepe" );
 
     public RepoIncidenciasTest() throws IncidenciaInvalidaException {
     }
@@ -71,10 +71,10 @@ public class RepoIncidenciasTest {
     @Test
     public void testListarIncidenciasRecientesAsignadas() throws IncidenciaInvalidaException {
         RepoIncidencias repo = new RepoIncidencias();
-        Incidencia incidencia1 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", Estados.REPORTADO,  LocalDate.parse("23/04/2023", formatEurope) , "Alguno" , operante, "OtroFulanito" );
-        Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("21/04/2023", formatEurope) , "Alguno" , operante, "Fulanita" );
-        Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("20/04/2023", formatEurope) , "Alguno" , operante, "ElHijoDeFulanita" );
-        Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("24/04/2023", formatEurope) , "Alguno" , operante, "ElHijoDeFulanita" );
+        Incidencia incidencia1 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", LocalDate.parse("23/04/2023", formatEurope), Estados.REPORTADO, "Alguno" , operante, "OtroFulanito" );
+        Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio",  LocalDate.parse("21/04/2023", formatEurope) , Estados.ASIGNADO, "Alguno" , operante, "Fulanita" );
+        Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio",   LocalDate.parse("20/04/2023", formatEurope) , Estados.ASIGNADO,"Alguno" , operante, "ElHijoDeFulanita" );
+        Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio",   LocalDate.parse("24/04/2023", formatEurope) , Estados.ASIGNADO,"Alguno" , operante, "ElHijoDeFulanita" );
 
         repo.save(incidencia1);
         repo.save(incidencia2);
@@ -88,10 +88,10 @@ public class RepoIncidenciasTest {
     @Test
     public void testListarIncidenciasViejasAsignadas() throws IncidenciaInvalidaException {
         RepoIncidencias repo = new RepoIncidencias();
-        Incidencia incidencia1 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", Estados.REPORTADO,  LocalDate.parse("23/04/2023", formatEurope) , "Alguno" , operante, "OtroFulanito" );
-        Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("21/04/2023", formatEurope) , "Alguno" , operante, "Fulanita" );
-        Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("20/04/2023", formatEurope) , "Alguno" , operante, "ElHijoDeFulanita" );
-        Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio", Estados.ASIGNADO,  LocalDate.parse("10/04/2023", formatEurope) , "Alguno" , operante, "ElHijoDeFulanita" );
+        Incidencia incidencia1 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio",  LocalDate.parse("23/04/2023", formatEurope), Estados.REPORTADO , "Alguno" , operante, "OtroFulanito" );
+        Incidencia incidencia2 = new Incidencia(codigoCatalogo, "Ascensor subte H estacion Parque Patricios fuera de servicio",  LocalDate.parse("21/04/2023", formatEurope), Estados.ASIGNADO , "Alguno" , operante, "Fulanita" );
+        Incidencia incidencia3 = new Incidencia(codigoCatalogo, "Escalera subte B estacion Pasteur fuera de servicio",  LocalDate.parse("20/04/2023", formatEurope), Estados.ASIGNADO , "Alguno" , operante, "ElHijoDeFulanita" );
+        Incidencia incidencia4 = new Incidencia(new CodigoCatalogo("1234-55"), "Escalera subte B estacion Pasteur fuera de servicio",  LocalDate.parse("10/04/2023", formatEurope), Estados.ASIGNADO , "Alguno" , operante, "ElHijoDeFulanita" );
 
         repo.save(incidencia1);
         repo.save(incidencia2);

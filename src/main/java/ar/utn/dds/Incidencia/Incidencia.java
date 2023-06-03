@@ -13,23 +13,62 @@ public class Incidencia {
     String descripcion;
     Estado estado;
     private List<Estado> estadosAnteriores = new ArrayList<>(); //se tutilizara para armar la linea de tiempo
-    LocalDate fechaDeReporte;
+    String fechaDeReporte;
     String motivoDeRechazo;
     Operador operador;
     String personaQueLoReporto;
 
+    public Incidencia(){
+    }
+
+    public String getMotivoDeRechazo() {
+        return motivoDeRechazo;
+    }
+
+    public void setMotivoDeRechazo(String motivoDeRechazo) {
+        this.motivoDeRechazo = motivoDeRechazo;
+    }
+
+    public Operador getOperador() {
+        return operador;
+    }
+
+    public void setOperador(Operador operador) {
+        this.operador = operador;
+    }
+
+    public String getPersonaQueLoReporto() {
+        return personaQueLoReporto;
+    }
+
+    public void setPersonaQueLoReporto(String personaQueLoReporto) {
+        this.personaQueLoReporto = personaQueLoReporto;
+    }
 
     public Incidencia(CodigoCatalogo codigoCatalogo, String descripcion, LocalDate fechaDeReporte, Estados estado) {
         this.codigoCatalogo = codigoCatalogo;
         this.descripcion = descripcion;
-        this.fechaDeReporte = fechaDeReporte;
+        this.fechaDeReporte = fechaDeReporte.toString();
         this.estado = new Estado(estado);
     }
 
+    public Incidencia(CodigoCatalogo codigoCatalogo, String descripcion, LocalDate fechaDeReporte) {
+        this.codigoCatalogo = codigoCatalogo;
+        this.descripcion = descripcion;
+        this.fechaDeReporte = fechaDeReporte.toString();
+        this.estado = new Estado(Estados.REPORTADO);
+    }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public Incidencia(CodigoCatalogo codigoCatalogo, String descripcion,
-                      Estados estado, LocalDate fechaDeReporte, String motivoDeRechazo,
+                      LocalDate fechaDeReporte, Estados estado, String motivoDeRechazo,
                       Operador operador, String personaQueLoReporto) throws IncidenciaInvalidaException {
         if(codigoCatalogo == null || fechaDeReporte == null || descripcion == null || estado == null){
             throw new IncidenciaInvalidaException("Incidencia no valida, complete campos no opcionales");
@@ -37,7 +76,7 @@ public class Incidencia {
         }
         this.codigoCatalogo = codigoCatalogo;
         this.descripcion = descripcion;
-        this.fechaDeReporte = fechaDeReporte;
+        this.fechaDeReporte = fechaDeReporte.toString();
         this.motivoDeRechazo = motivoDeRechazo;
         this.operador = operador;
         this.personaQueLoReporto = personaQueLoReporto;
@@ -52,10 +91,9 @@ public class Incidencia {
         if(estado.validarCambioEstado(nuevoEstado)){
             estadosAnteriores.add(this.estado);
             this.estado = new Estado(nuevoEstado);
-
         }
     }
-    public LocalDate getFechaDeReporte(){
+    public String getFechaDeReporte(){
         return this.fechaDeReporte;
     }
     public CodigoCatalogo getCodigoCatalogo(){
