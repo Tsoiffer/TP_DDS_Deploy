@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    {{> templates/dependencies}}
+    {{> templates/header}}
+</head>
+<body>
+    <div class="container-fluid">
+    <p class="h1">Estado de Medidas de Accesibilidad</p>
+      <table class="table table-hover">
+        <thead>
+            <th scope="col">Estado</th>
+            <th scope="col">Codigo Catalogo</th>
+            <th scope="col">Linea</th>
+            <th scope="col">Estacion</th>
+        </thead>
+        <tbody>
+        {{#each mda}}
+
+        <tr>
+            <td><span class="badge rounded-pill text-bg-danger">Innacesible</span></td>
+            <td>{{this.codigoDeCatalogo}}</td>
+            <td>{{this.linea}}</td>
+            <td>{{this.estacion}}</td>
+        </tr>
+
+        {{/each}}
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+
+     <!-- Hero Comentado por motivos de archivo. Ahora el inicio tiene que mostrar medidas inaccesibles.
+          <div class="container col-xxl-8 px-4 py-5">
+              <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                  <img src="https://media.istockphoto.com/id/1319994839/photo/accessibility-computer-icon-stock-photo.jpg?s=612x612&w=0&k=20&c=3oAg7gT4vSc0mZeDuKDDB7SYxBoHUJjl0TGZCzSMPGg=" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                  <h1 class="display-5 fw-bold lh-1 mb-3">Gestión de Accesibilidad para Personas con Discapacidades Motoras</h1>
+                  <p class="lead">Nuestra plataforma te brinda la capacidad de informar y gestionar incidentes relacionados con la accesibilidad en entornos públicos y privados, centrándonos en las necesidades de las personas con discapacidades motoras. ¡Únete a nosotros para construir un mundo más inclusivo y accesible para todos!</p>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a href="/incidencia"><button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Listado de Incidencias</button></a>
+                    <a href = "/loteIncidencias"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Lotes de Incidencias</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+      -->
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags + Dependencies de Boostrap5 + header de navegacion -->
+    {{> templates/dependencies}}
+
+</head>
+    {{> templates/header}}
+<body>
+     <!-- Titulo! -->
+     <h1>Lotes De Incidencias</h1>
+
+     <!-- Iteracion por Lotes incidencias. -->
+     <ul class="list-group list-group-flush">
+        <li class= "list-group-item">
+            <a href="#">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agergarLoteIncidenciaModal">
+                    Agregar +
+                </button>
+            </a>
+        </li>
+    <table class="table table-hover">
+        <tr>
+            <th scope="row" style="text-align:center"> Numero de Lote
+            </th>
+            <th>Estado de la carga</th>
+            <th>Incidencias Cargadas</th>
+            <th>Incidencias Erroneas</th>
+        </tr>
+        {{#each lotesIncidencias}}
+        <tr>
+              <td scope="row"  style="text-align:center">
+              <strong>#{{this.id}}
+              </strong></td>
+               {{#if this.finalizado}}
+               <td> Finalizado</td>
+               {{else}}
+               <td> Pendiente</td>
+               {{/if}}
+               <td>{{this.cantidadIncidencias}}</td>
+               <td>{{this.cantidadIncidenciasErroneas}}</td>
+        </tr>
+        {{/each}}
+        </table>
+     </ul>
+
+{{> templates/modalCargaLoteIncidencia}}
+<script>
+
+
+			let finCarga = document.getElementById("finCarga");
+			let btn = document.getElementById("btnenviar");
+			let modalBody = document.getElementById("modalBody");
+			let loading = document.getElementById("loading");
+			let form = document.getElementById("formulario_loteincidencia");
+			form.addEventListener("submit", function (e) {
+				e.preventDefault();
+				btn.style.display = "none";
+				modalBody.style.display = "none";
+				loading.style.display = "flex";
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", form.action);
+				xhr.send(new FormData(form));
+				xhr.onload = function (e) {
+					//document.getElementById("respuesta").innerHTML = xhr.responseText;
+					finCarga.style.display = "flex";
+					loading.style.display = "none";
+					setTimeout(() => {window.location.reload();},1000);
+				};
+				console.log("fin");
+			});
+			let btnClose = document.getElementById("btnClose");
+			btnClose.addEventListener("click", function (e) {
+				setTimeout(() => {
+					btn.style.display = "block";
+					modalBody.style.display = "block";
+					finCarga.style.display = "none";
+					form.reset();
+				}, 1000);
+			});
+		</script>
+</body>
+</html>

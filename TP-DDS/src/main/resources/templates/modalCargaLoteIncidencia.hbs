@@ -1,0 +1,73 @@
+<!-- Modal -->
+<div
+			class="modal fade"
+			data-bs-backdrop="static"
+			id="agergarLoteIncidenciaModal"
+			tabindex="-1"
+			aria-labelledby="agergarIncidenciaModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centere">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="agergarIncidenciaModalLabel">
+							Carga de Lote de Incidencias
+						</h5>
+						<button
+							id="btnClose"
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<form
+						action="/incidencia/cargaMasiva"
+						method="POST"
+						enctype="multipart/form-data"
+						class="needs-validation"
+						id="formulario_loteincidencia"
+						novalidate>
+						<div id="modalBody" class="modal-body">
+							<div class="row g-3">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<input
+											type="file"
+											class="form-control"
+											name="file"
+											aria-describedby="inputGroupFileAddon04"
+											aria-label="Upload"
+											 required />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button
+								class="w-100 btn btn-primary btn-lg"
+								type="submit"
+								id="btnenviar">
+								Cargar
+							</button>
+							<div class="col-sm-12">
+								<div class="d-flex justify-content-center">
+									<div
+										style="display: none"
+										id="loading"
+										class="spinner-border"
+										role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+								<div
+									id="finCarga"
+									style="display: none"
+									class="alert alert-success"
+									role="alert">
+									Se cargo el Lote de incidencias!
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>

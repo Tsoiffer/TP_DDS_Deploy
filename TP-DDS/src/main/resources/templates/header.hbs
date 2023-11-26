@@ -1,0 +1,106 @@
+    <header class="p-3 mb-3 border-bottom">
+
+        <!-- Header Principal de navegacion. -->
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-universal-access-circle" viewBox="0 0 16 16">
+                <path d="M8 4.143A1.071 1.071 0 1 0 8 2a1.071 1.071 0 0 0 0 2.143Zm-4.668 1.47 3.24.316v2.5l-.323 4.585A.383.383 0 0 0 7 13.14l.826-4.017c.045-.18.301-.18.346 0L9 13.139a.383.383 0 0 0 .752-.125L9.43 8.43v-2.5l3.239-.316a.38.38 0 0 0-.047-.756H3.379a.38.38 0 0 0-.047.756Z"/>
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Z"/>
+              </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="/incidencia" class="nav-link px-2 link-dark">Incidencias</a></li>
+              <li><a href="/loteIncidencias" class="nav-link px-2 link-dark">Lotes De Incidencias</a></li>
+              <li><a href="#">
+                  <button id="btnLogin" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      Iniciar Sesion
+                  </button>
+                  <button id="btnLogout" type="button" class="btn btn-secondary" style="display: none;">
+                      Cerrar Sesion
+                  </button>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+    {{> templates/modalLogin}}
+    <script>
+        let successLogin = document.getElementById("success");
+        let failureLogin = document.getElementById("failure");
+        let btnSend = document.getElementById("btnLoginSend");
+        let btnLogin = document.getElementById("btnLogin");
+        let btnLogout = document.getElementById("btnLogout");
+        let modalBodyLogin = document.getElementById("modalBody");
+        let loadingLogin = document.getElementById("loading");
+        let formLogin = document.getElementById("formulario_login");
+
+        let isLoggedIn = document.cookie.includes('isLoggedIn=true');
+
+
+        formLogin.addEventListener("submit", function (e) {
+            e.preventDefault();
+            btnSend.style.display = "none";
+            modalBodyLogin.style.display = "none";
+            loadingLogin.style.display = "flex";
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", formLogin.action);
+            xhr.send(new FormData(formLogin));
+            xhr.onload = function (e) {
+                //document.getElementById("respuesta").innerHTML = xhr.responseText;
+                //finLogin.style.display = "flex";
+                loadingLogin.style.display = "none";
+                let json = JSON.parse(xhr.responseText);
+                let codigo = json.codigo;
+                let mensaje = json.mensaje;
+
+                if (codigo === "0") {
+                    let username = document.getElementById("username").value;
+                    successLogin.style.display = "flex";
+                    btnLogin.style.display = "none";
+                    btnLogout.style.display = "flex";
+
+                    document.cookie = "isLoggedIn=true; path=/;SameSite=None; Secure";
+                    document.cookie = "usernameLogged=" + username + "; path=/;SameSite=None; Secure";
+                }
+                if (codigo === "1") {
+                    failureLogin.style.display = "flex";
+                }
+                console.log(xhr.status);
+                console.log(codigo);
+                console.log(mensaje);
+                setTimeout(() => {location.reload()},1000);
+            };
+            console.log("fin");
+        });
+        let btnCloseLogin = document.getElementById("btnClose");
+        btnCloseLogin.addEventListener("click", function (e) {
+            setTimeout(() => {
+                btnSend.style.display = "block";
+                modalBodyLogin.style.display = "block";
+                successLogin.style.display = "none";
+                failureLogin.style.display = "none";
+                formLogin.reset();
+            }, 1000);
+        });
+
+        btnLogout.addEventListener("click", function (e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/logout");
+            xhr.send();
+            xhr.onload = function (e) {
+                btnLogout.style.display = "none";
+                btnLogin.style.display = "flex";
+                document.cookie = "isLoggedIn=false; path=/;SameSite=None; Secure";
+                document.cookie = "usernameLogged=; path=/;SameSite=None; Secure";
+                window.location.href = "/";
+            }
+
+        });
+
+        btnLogin.style.display = isLoggedIn ? 'none' : 'flex';
+        btnLogout.style.display = isLoggedIn ? 'flex' : 'none';
+    </script>

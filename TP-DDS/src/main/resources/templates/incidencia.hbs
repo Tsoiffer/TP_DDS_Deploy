@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags + Dependencies de Boostrap5 + header de navegacion -->
+    {{> templates/dependencies}}
+
+</head>
+    {{> templates/header}}
+<body>
+
+
+     <!-- Aca va tu contenido! -->
+
+     <div class=container>
+        <input
+        action="action"
+        onclick="window.location.href = '/incidencia';return false;"
+        type="submit"
+        value="Volver atrás"
+        />
+        <p class="h1">Incidencia {{incidencia.codigoCatalogo.codigo}}</p>
+
+        <p>Descripción: {{incidencia.descripcion}}</p>
+        <p>Fecha de reporte: {{incidencia.fechaDeReporte}}</p>
+        <p>Estado: {{incidencia.estadoAsignado.nombre}}</p>
+        <div class="col align-items-start">
+            <a href="#">
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarIncidenciaModal" id="eliminarIncidencia">
+                    Eliminar
+                </button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editarIncidenciaModal" id="editarIncidencia">
+                    Editar
+                </button>
+            </a>
+        </div>
+     </div>
+
+     <script>
+         $("#eliminarIncidencia").click(function() {
+             var confirmed = window.confirm("¿Seguro que desea borrar la incidencia?");
+             if(confirmed) {
+                 $.ajax({
+                     url: '/incidencia/{{incidencia.id}}',
+                     type: 'DELETE',
+
+                     success: function (result) {
+                         // Handle success here, e.g., update the UI or display a message
+                         console.log('DELETE request successful');
+                         window.alert("Incidencia borrada de forma exitosa");
+                         window.location.href = "/incidencia";
+                     },
+                     error: function (xhr, status, error) {
+                         console.error('DELETE request failed:', error);
+                         console.log('/incidencia/{{incidencia.id}}')
+                     }
+                 });
+             }
+
+             });
+
+     </script>
+
+    {{> templates/modalEditarIncidencia}}
+    <script>
+
+                let finCarga = document.getElementById("finCarga");
+                let btn = document.getElementById("btnenviar");
+                let modalBody = document.getElementById("modalBody");
+                let loading = document.getElementById("loading");
+                let form = document.getElementById("formulario_edicion_incidencia");
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    btn.style.display = "none";
+                    modalBody.style.display = "none";
+                    loading.style.display = "flex";
+                    let xhr = new XMLHttpRequest();
+                    let formData = new FormData(form);
+                    xhr.open("PUT", form.action);
+                    console.log(formData);
+                    xhr.send(formData);
+                    xhr.onload = function (e) {
+                        let json = JSON.parse(xhr.responseText);
+                        finCarga.innerHTML = json.mensaje;
+                        finCarga.className = (json.codigo === "0" ? "alert alert-success" : "alert alert-warning");
+                        finCarga.style.display = "flex";
+                        loading.style.display = "none";
+                        setTimeout(() => {location.reload()},1000);
+                    };
+                    console.log("fin");
+                });
+                let btnClose = document.getElementById("btnClose");
+                btnClose.addEventListener("click", function (e) {
+                    setTimeout(() => {
+                        btn.style.display = "block";
+                        modalBody.style.display = "block";
+                        finCarga.style.display = "none";
+                        form.reset();
+                    }, 1000);
+                });
+            </script>
+
+</body>
+</html>

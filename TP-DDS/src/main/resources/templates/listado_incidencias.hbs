@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags + Dependencies de Boostrap5 + header de navegacion -->
+    {{> templates/dependencies}}
+    {{> templates/header}}
+</head>
+<body>
+     <!-- Titulo! -->
+     <h1>Listado De Incidencias</h1>
+
+     <!-- Iteracion por las incidencias. -->
+     <ul class="list-group list-group-flush">
+        <li class= "list-group-item">
+            <a href="#">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agergarIncidenciaModal">
+                    Agregar +
+                </button>
+            </a>
+        </li>
+        <table class="table table-hover">
+        <tr>
+            <th scope="row" style="text-align:center"> Detalle Incidencia
+            </th>
+            <th>Codigo De Catalogo</th>
+            <th>Estado de la Incidencia</th>
+            <th>Fecha de Reporte</th>
+        </tr>
+        {{#each incidencias}}
+                <tr>
+                    <td scope="row" style="text-align:center"> <span>
+                    <a href="incidencia/{{this.id}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </a>
+                    </span>
+                    </td>
+                    <td>{{this.codigoCatalogo.codigo}}</td>
+                    <td>{{this.estadoAsignado.nombre}}</td>
+                    <td>{{this.fechaDeReporte}}</td>
+                </tr>
+
+        {{/each}}
+        </table>
+
+     </ul>
+
+{{> templates/modalCargaIncidencia}}
+<script>
+
+			let finCarga = document.getElementById("finCarga");
+			let btn = document.getElementById("btnenviar");
+			let modalBody = document.getElementById("modalBody");
+			let loading = document.getElementById("loading");
+			let form = document.getElementById("formulario_incidencia");
+			form.addEventListener("submit", function (e) {
+				e.preventDefault();
+				btn.style.display = "none";
+				modalBody.style.display = "none";
+				loading.style.display = "flex";
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", form.action);
+				xhr.send(new FormData(form));
+				xhr.onload = function (e) {
+                    let json = JSON.parse(xhr.responseText);
+                    finCarga.innerHTML = json.mensaje;
+                    finCarga.className = (json.codigo === "0" ? "alert alert-success" : "alert alert-warning");
+                    finCarga.style.display = "flex";
+                    setTimeout(() => {window.location.reload();},1000);
+					//document.getElementById("respuesta").innerHTML = xhr.responseText;
+                    //location.reload();
+				};
+				console.log("fin");
+			});
+			let btnClose = document.getElementById("btnClose");
+			btnClose.addEventListener("click", function (e) {
+				setTimeout(() => {
+					btn.style.display = "block";
+					modalBody.style.display = "block";
+					finCarga.style.display = "none";
+					form.reset();
+				}, 1000);
+			});
+		</script>
+</body>
+</html>

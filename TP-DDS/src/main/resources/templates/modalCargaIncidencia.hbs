@@ -1,0 +1,99 @@
+<!-- Modal -->
+<div
+			class="modal fade"
+			id="agergarIncidenciaModal"
+			tabindex="-1"
+			aria-labelledby="agergarIncidenciaModalLabel"
+			aria-hidden="true"
+			data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centere">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="agergarIncidenciaModalLabel">
+							Carga de Lote de Incidencias
+						</h5>
+						<button
+							id="btnClose"
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<form
+						action="/incidencia"
+						enctype="multipart/form-data"
+						class="needs-validation"
+						id="formulario_incidencia"
+						novalidate>
+						<div id="modalBody" class="modal-body">
+							<div class="row g-3">
+								<div class="col-sm-12">
+									<label for="Codigo Catalogo" class="form-label"
+										>Codigo de Catalogo</label
+									>
+										<select class="form-control" name="CodigoCatalogo" id="codCatalogo">
+										{{#each mda}}
+                                            <option value="{{this.codigoDeCatalogo}}">{{this.codigoDeCatalogo}} - {{this.linea}} - {{this.estacion}}</option>
+										{{/each}}
+										</select>
+								</div>
+
+								<div class="col-sm-12">
+									<label for="Descripcion" class="form-label"
+										>Descripcion</label
+									>
+									<textarea
+										class="form-control"
+										name="Descripcion"
+										rows="3"></textarea>
+								</div>
+								<div class="col-sm-12">
+									<label>
+										Ingrese la Fecha Del incidente:
+										<input type="date" name="FechaDeReporte" required />
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button
+								class="w-100 btn btn-primary btn-lg"
+								type="submit"
+								id="btnenviar">
+								Cargar
+							</button>
+							<div class="col-sm-12">
+								<div class="d-flex justify-content-center">
+									<div
+										style="display: none"
+										id="loading"
+										class="spinner-border"
+										role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+								<div
+									id="finCarga"
+									style="display: none"
+									class="alert alert-success"
+									role="alert">
+									Se cargo la incidencia!
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+<script>
+//Script para que funcione select2
+
+$(document).ready(function() {
+    $('#codCatalogo').select2({
+        dropdownParent: $('#agergarIncidenciaModal')
+    });
+});
+
+
+</script>
